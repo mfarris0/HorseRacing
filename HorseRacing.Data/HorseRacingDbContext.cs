@@ -21,6 +21,8 @@ namespace HorseRacing.Data
 
         public DbSet<RaceType> RaceTypes { get; set; }
 
+        public DbSet<RawRace> RawRaces { get; set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -35,6 +37,7 @@ namespace HorseRacing.Data
             modelBuilder.Entity<Distance>().ToTable(Distance.Constants.TableName);
             modelBuilder.Entity<RaceSurface>().ToTable(RaceSurface.Constants.TableName);
             modelBuilder.Entity<RaceType>().ToTable(RaceType.Constants.TableName);
+            modelBuilder.Entity<RawRace>().ToTable(RawRace.Constants.TableName);
 
             base.OnModelCreating(modelBuilder);
         }

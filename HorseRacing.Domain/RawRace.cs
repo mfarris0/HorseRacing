@@ -35,10 +35,6 @@ namespace HorseRacing.Domain
         public string Id { get; set; }
        
         [Required]
-        [StringLength(11)]
-        public string RawRaceDayId { get; set; }
-
-        [Required]
         [StringLength(2)]
         public string RaceNumber { get; set; }
 
@@ -51,23 +47,10 @@ namespace HorseRacing.Domain
         public string Classification { get; set; }
 
         [Required]
-        [StringLength(2)]
-        public RaceType RaceType { get; set; }
-
-        [Required]
-        [StringLength(6)]
-        public Distance Distance { get; set; }
-
-        [Required]
-        [StringLength(1)]
-        public RaceSurface RaceSurface { get; set; }
-
-        [Required]
         [StringLength(500)]
         public string Conditions { get; set; }
 
-        public IEnumerable<RawRaceHorse> RaceHorseList { get; set; }
-
+        
         public class Constants
         {
             public const string TableName = "RawRace";
