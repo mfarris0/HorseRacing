@@ -4,14 +4,16 @@ using HorseRacing.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HorseRacing.Data.Migrations
 {
     [DbContext(typeof(HorseRacingDbContext))]
-    partial class HorseRacingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230312211850_added RaceDay to RawRace")]
+    partial class addedRaceDaytoRawRace
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -163,53 +165,6 @@ namespace HorseRacing.Data.Migrations
                     b.ToTable("RawRace");
                 });
 
-            modelBuilder.Entity("HorseRacing.Domain.RawRaceHorse", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
-
-                    b.Property<string>("HorseName")
-                        .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
-
-                    b.Property<string>("JockeyName")
-                        .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
-
-                    b.Property<string>("MorningLineOdds")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
-
-                    b.Property<string>("PostPosition")
-                        .IsRequired()
-                        .HasMaxLength(2)
-                        .HasColumnType("nvarchar(2)");
-
-                    b.Property<string>("RawRaceId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(13)");
-
-                    b.Property<string>("TrainerName")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
-
-                    b.Property<string>("WeightCarried")
-                        .IsRequired()
-                        .HasMaxLength(3)
-                        .HasColumnType("nvarchar(3)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RawRaceId");
-
-                    b.ToTable("RawRaceHorse");
-                });
-
             modelBuilder.Entity("HorseRacing.Domain.Track", b =>
                 {
                     b.Property<string>("Id")
@@ -265,22 +220,6 @@ namespace HorseRacing.Data.Migrations
                     b.Navigation("RaceSurface");
 
                     b.Navigation("RaceType");
-                });
-
-            modelBuilder.Entity("HorseRacing.Domain.RawRaceHorse", b =>
-                {
-                    b.HasOne("HorseRacing.Domain.RawRace", "RawRace")
-                        .WithMany("RaceHorseList")
-                        .HasForeignKey("RawRaceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("RawRace");
-                });
-
-            modelBuilder.Entity("HorseRacing.Domain.RawRace", b =>
-                {
-                    b.Navigation("RaceHorseList");
                 });
 #pragma warning restore 612, 618
         }

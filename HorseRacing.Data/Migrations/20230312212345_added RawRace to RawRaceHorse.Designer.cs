@@ -4,14 +4,16 @@ using HorseRacing.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HorseRacing.Data.Migrations
 {
     [DbContext(typeof(HorseRacingDbContext))]
-    partial class HorseRacingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230312212345_added RawRace to RawRaceHorse")]
+    partial class addedRawRacetoRawRaceHorse
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -190,7 +192,6 @@ namespace HorseRacing.Data.Migrations
                         .HasColumnType("nvarchar(2)");
 
                     b.Property<string>("RawRaceId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(13)");
 
                     b.Property<string>("TrainerName")
@@ -270,17 +271,10 @@ namespace HorseRacing.Data.Migrations
             modelBuilder.Entity("HorseRacing.Domain.RawRaceHorse", b =>
                 {
                     b.HasOne("HorseRacing.Domain.RawRace", "RawRace")
-                        .WithMany("RaceHorseList")
-                        .HasForeignKey("RawRaceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany()
+                        .HasForeignKey("RawRaceId");
 
                     b.Navigation("RawRace");
-                });
-
-            modelBuilder.Entity("HorseRacing.Domain.RawRace", b =>
-                {
-                    b.Navigation("RaceHorseList");
                 });
 #pragma warning restore 612, 618
         }

@@ -62,6 +62,12 @@ namespace HorseRacing.Domain
         [StringLength(1)]
         public RaceSurface RaceSurface { get; set; }
 
+        [Required]
+        public RaceDay RaceDay { get; set; }
+
+        public IEnumerable<RawRaceHorse> RaceHorseList { get; set; }
+
+
         public class Constants
         {
             public const string TableName = "RawRace";

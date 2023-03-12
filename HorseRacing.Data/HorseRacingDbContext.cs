@@ -23,6 +23,8 @@ namespace HorseRacing.Data
 
         public DbSet<RawRace> RawRaces { get; set; }
 
+        public DbSet<RawRaceHorse> RawRaceHorses { get; set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -38,6 +40,7 @@ namespace HorseRacing.Data
             modelBuilder.Entity<RaceSurface>().ToTable(RaceSurface.Constants.TableName);
             modelBuilder.Entity<RaceType>().ToTable(RaceType.Constants.TableName);
             modelBuilder.Entity<RawRace>().ToTable(RawRace.Constants.TableName);
+            modelBuilder.Entity<RawRaceHorse>().ToTable(RawRaceHorse.Constants.TableName);
 
             base.OnModelCreating(modelBuilder);
         }

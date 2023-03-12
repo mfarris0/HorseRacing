@@ -57,7 +57,6 @@ namespace HorseRacing.Domain
         public string TrainerName { get; set; }
 
         [Required]
-        [StringLength(13)]
         public RawRace RawRace { get; set; }
 
         public class Constants
@@ -65,11 +64,6 @@ namespace HorseRacing.Domain
             public const string TableName = "RawRaceHorse";
         }
 
-        //public override string ToString()
-        //{
-        //    string text = $"{PostPosition,2}  {HorseName,-25}  {MorningLineOdds,5}  {JockeyName,-25}  {TrainerName, -30}{WeightAllowed}";
-        //    return text;
-        //}
     }
 
 
