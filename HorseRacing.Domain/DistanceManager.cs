@@ -1,0 +1,33 @@
+﻿namespace HorseRacing.Domain
+{
+    public class DistanceManager
+    {
+        const int yardsPerFurlong = 220;
+        const int yardsPerMile = 1760;
+
+
+        private double YardsToFurlongs(int yards)
+        {
+            double furlongs = yards / 220;
+            return furlongs;
+        }
+
+        public string DistanceToDisplay(double yards)
+        {
+            string text;
+            double value;
+
+            if (yards < 1760)
+            {
+                value = yards / yardsPerFurlong;
+                text = $"{value:n2} furlongs";
+            }
+            else
+            {
+                value = yards / yardsPerMile;
+                text = $"{value:n2} miles";
+            }
+            return text;
+        }
+    }
+}
