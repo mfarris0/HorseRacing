@@ -4,14 +4,16 @@ using HorseRacing.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HorseRacing.Data.Migrations
 {
     [DbContext(typeof(HorseRacingDbContext))]
-    partial class HorseRacingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230312211353_added Distance to RawRace")]
+    partial class addedDistancetoRawRace
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -141,17 +143,12 @@ namespace HorseRacing.Data.Migrations
                         .HasMaxLength(2)
                         .HasColumnType("nvarchar(2)");
 
-                    b.Property<string>("RaceSurfaceId")
-                        .HasColumnType("nvarchar(1)");
-
                     b.Property<string>("RaceTypeId")
                         .HasColumnType("nvarchar(2)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("DistanceId");
-
-                    b.HasIndex("RaceSurfaceId");
 
                     b.HasIndex("RaceTypeId");
 
@@ -194,17 +191,11 @@ namespace HorseRacing.Data.Migrations
                         .WithMany()
                         .HasForeignKey("DistanceId");
 
-                    b.HasOne("HorseRacing.Domain.RaceSurface", "RaceSurface")
-                        .WithMany()
-                        .HasForeignKey("RaceSurfaceId");
-
                     b.HasOne("HorseRacing.Domain.RaceType", "RaceType")
                         .WithMany()
                         .HasForeignKey("RaceTypeId");
 
                     b.Navigation("Distance");
-
-                    b.Navigation("RaceSurface");
 
                     b.Navigation("RaceType");
                 });

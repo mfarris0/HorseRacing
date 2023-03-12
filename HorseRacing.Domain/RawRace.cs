@@ -54,6 +54,13 @@ namespace HorseRacing.Domain
         [StringLength(2)]
         public RaceType RaceType { get; set; }
 
+        [Required]
+        [StringLength(6)]
+        public Distance Distance { get; set; }
+
+        [Required]
+        [StringLength(1)]
+        public RaceSurface RaceSurface { get; set; }
 
         public class Constants
         {
