@@ -50,7 +50,11 @@ namespace HorseRacing.Domain
         [StringLength(500)]
         public string Conditions { get; set; }
 
-        
+        [Required]
+        [StringLength(2)]
+        public RaceType RaceType { get; set; }
+
+
         public class Constants
         {
             public const string TableName = "RawRace";
