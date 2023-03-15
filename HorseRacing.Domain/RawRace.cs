@@ -67,6 +67,15 @@ namespace HorseRacing.Domain
 
         public IEnumerable<RawRaceHorse> RaceHorseList { get; set; }
 
+        public override string ToString()
+        {
+            StringBuilder text = new StringBuilder();
+
+            text.AppendLine( $"{Id} {RaceDay.RaceDateString} {RaceNumber} {Purse} {Classification} {RaceType.Name} {Distance.Name} {RaceSurface.Name}");
+            text.AppendLine(Conditions);
+            text.AppendLine();
+            return text.ToString();
+        }
 
         public class Constants
         {

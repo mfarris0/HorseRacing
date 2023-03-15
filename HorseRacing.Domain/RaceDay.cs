@@ -9,7 +9,7 @@ namespace HorseRacing.Domain
         public int Id { get; set; }
 
         [Required]
-        public DateTime RaceDate { get; set; }
+        public DateTime? RaceDate { get; set; }
 
         [Required]
         [StringLength(3)]
