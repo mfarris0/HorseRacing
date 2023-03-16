@@ -38,12 +38,11 @@ namespace HorseRacing.ConsoleApp
                         AddRace(fields, viewer, raceSurface, distance, raceType);
                         previousRaceNumber = currentRaceNumber;
                     }
-                    //AddRaceHorse(fields, viewer);
+                    AddRaceHorse(fields, viewer, viewer.RaceCard[^1]);// ^1 gets last item in a list
                 }
-
             }
-
         }
+
         private TextFieldParser GetTextFieldParser(FileInfo file)
         {
             TextFieldParser textFieldParser = new TextFieldParser(file.FullName)
@@ -60,7 +59,6 @@ namespace HorseRacing.ConsoleApp
             var raceDayImportManager = new RaceDayImportManager(fields, viewer.Track);
             viewer.RaceDay = raceDayImportManager.CreateRaceDay();
         }
-
 
         private void LoadTrack(string[] fields, RaceCardViewerViewModel viewer)
         {
@@ -123,19 +121,11 @@ namespace HorseRacing.ConsoleApp
             raceCardViewer.RaceCard.Add(rawRace);
         }
 
-        private void AddRaceHorse(string[] fields, RaceCardViewerViewModel viewer)
+        private void AddRaceHorse(string[] fields, RaceCardViewerViewModel viewer, RawRace rawRace)
         {
-            //RawRaceHorse rawRaceHorse = new RawRaceHorse(
-            //                            rawRaceId: viewer.RaceCard[^1].RawRaceId,
-            //                            postPosition: fields[3],
-            //                            horseName: fields[44],
-            //                            morningLineOdds: fields[43],
-            //                            jockeyName: fields[32],
-            //                            weightAllowed: fields[50],
-            //                            trainerName: fields[27]
-            //                            );
-
-            //viewer.RaceHorseList.Add(rawRaceHorse);
+            var rawRaceHorseImportManager = new RawRaceHorseImportManager(fields, rawRace);
+            var rawRaceHorse = rawRaceHorseImportManager.CreateRawRaceHorse();
+            rawRace.RaceHorseList.Add(rawRaceHorse);
         }
 
 

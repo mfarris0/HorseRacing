@@ -65,7 +65,7 @@ namespace HorseRacing.Domain
         [Required]
         public RaceDay RaceDay { get; set; }
 
-        public IEnumerable<RawRaceHorse> RaceHorseList { get; set; }
+        public List<RawRaceHorse> RaceHorseList { get; set; } = new List<RawRaceHorse>();
 
         public override string ToString()
         {
