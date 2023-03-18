@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 
@@ -7,13 +8,19 @@ namespace HorseRacing.ConsoleApp
     class Program
     {
         private static string _applicationTitle;
-        private static string _exit = "";
+
         static void Main(string[] args)
         {
             Initialize();
-            ImportData();
-
+            Run();
             DisplayExitPrompt();
+        }
+
+        private static void Run()
+        {
+            //DisplayDataFiles();
+
+            ImportFiles();
         }
 
         private static void DisplayExitPrompt()
@@ -26,55 +33,64 @@ namespace HorseRacing.ConsoleApp
         private static void Initialize()
         {
             _applicationTitle = ConfigurationManager.AppSettings[Constants.AppSettings.ApplicationTitle];
+
         }
 
-        private static void ImportData()
+        private static void DisplayDataFiles()
+        {
+            var fileList = GetFileList();
+            DisplayFileList(fileList);
+        }
+
+        private static IEnumerable<FileInfo> GetFileList()
         {
             DirectoryManager directoryManager = new DirectoryManager(_applicationTitle);
-            var dataFiles = directoryManager.DataFileDirectory.GetFiles("*.dat");
-            //DisplayDataFileList(dataFiles);
-
-            //---------------------------------------------------------------
-            LoadData(dataFiles);
-         
+            var fileList = directoryManager.DataFileDirectory.GetFiles("*.dat");
+            return fileList;
         }
 
-        private static void LoadData(FileInfo[] dataFiles)
+        private static void DisplayFileList(IEnumerable<FileInfo> fileList)
         {
-            //foreach (var file in dataFiles)
-            //{
-            //    LoadFile(file);
-            //}
-
-            var file = dataFiles[0];
-            LoadFile(file);
-        }
-
-        private static void LoadFile(FileInfo file)
-        {
-            RaceCardViewerViewModel raceCardViewerViewModel = new RaceCardViewerViewModel();
-            RaceCardViewerViewModelManager manager = new RaceCardViewerViewModelManager();
-            manager.Load(file, raceCardViewerViewModel);
-
-            DisplayRaceList(raceCardViewerViewModel);
-        }
-
-        private static void DisplayRaceList(RaceCardViewerViewModel raceCardViewerViewModel)
-        {
-            foreach (var race in raceCardViewerViewModel.RaceCard)
-            {
-                Console.WriteLine(race.ToString());
-            }
-        }
-
-        private static void DisplayDataFileList(FileInfo[] dataFiles)
-        {
-            foreach (var file in dataFiles)
+            foreach (var file in fileList)
             {
                 Console.WriteLine($"{file.FullName}");
             }
         }
 
+        private static void ImportFiles()
+        {
+            var manager = new RaceCardViewerViewModelManager();
+
+            var fileList = GetFileList();
+            foreach (var file in fileList)
+            {
+                ImportFile(manager, file);
+            }
+        }
+
+        private static void ImportFile(RaceCardViewerViewModelManager manager, FileInfo file)
+        {
+            var raceCardViewerViewModel = manager.Load(file);
+            if (raceCardViewerViewModel == null)
+            {
+                Console.WriteLine($"Unable to import file {file.FullName}");
+            }
+            else
+            {
+                Console.WriteLine($"Importing file {file.FullName}");
+                DisplayRaceList(raceCardViewerViewModel);
+                Console.WriteLine();
+            }
+        }
+
+        private static void DisplayRaceList(RaceCardViewerViewModel raceCardViewerViewModel)
+        {
+            Console.WriteLine($"Race Day {raceCardViewerViewModel.RaceDay.RaceDate?.ToShortDateString()}  {raceCardViewerViewModel.RaceDay.Track.Name}");
+            foreach (var race in raceCardViewerViewModel.RaceCard)
+            {
+                Console.WriteLine($"Race Number {race.RaceNumber}");
+            }
+        }
 
     }
 }

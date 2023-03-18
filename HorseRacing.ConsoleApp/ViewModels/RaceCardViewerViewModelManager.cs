@@ -13,8 +13,10 @@ namespace HorseRacing.ConsoleApp
 
         }
 
-        public void Load(FileInfo file, RaceCardViewerViewModel viewer)
+        public RaceCardViewerViewModel Load(FileInfo file)
         {
+            RaceCardViewerViewModel viewer = new RaceCardViewerViewModel();
+
             TextFieldParser textFieldParser = GetTextFieldParser(file);
             int previousRaceNumber = 0;
 
@@ -41,6 +43,8 @@ namespace HorseRacing.ConsoleApp
                     AddRaceHorse(fields, viewer, viewer.RaceCard[^1]);// ^1 gets last item in a list
                 }
             }
+
+            return viewer;
         }
 
         private TextFieldParser GetTextFieldParser(FileInfo file)
