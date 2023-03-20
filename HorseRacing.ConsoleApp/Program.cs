@@ -88,6 +88,7 @@ namespace HorseRacing.ConsoleApp
                 //ImportRaceTypes(horseRacingRepository, raceCardViewerViewModel.RaceTypeLookup);
                 //ImportDistances(horseRacingRepository, raceCardViewerViewModel.DistanceLookup);
                 //ImportRaceSurfaces(horseRacingRepository, raceCardViewerViewModel.RaceSurfaceLookup);
+                //ImportRaceDay(horseRacingRepository, raceCardViewerViewModel.RaceDay);
                 ImportRaceDay(horseRacingRepository, raceCardViewerViewModel.RaceDay);
 
                 Console.WriteLine();
@@ -211,10 +212,11 @@ namespace HorseRacing.ConsoleApp
                 dto = new DTO.RaceDay
                 {
                     Id = raceDay.Id,
+                    TrackId = raceDay.Track.Id,
+                    TrackCode = raceDay.TrackCode,
                     RaceDate = (DateTime)raceDay.RaceDate,
                     RaceDateString = raceDay.RaceDateString,
-                    TrackCode = raceDay.TrackCode,
-                    TrackId = raceDay.Track.Id
+                    RaceDayIdString = raceDay.RaceDayIdString
                 };
             }
             return dto;

@@ -27,8 +27,21 @@ namespace HorseRacing.Service
                 _horseRacingRepository.SaveChanges();
                 raceDayDto.Id = data.Id;
             }
+            else
+            {
+                raceDayDto = Update(raceDayDto);
+            }
             return raceDayDto;
         }
+
+        public DTO.RaceDay Update(DTO.RaceDay raceDayDto)
+        {
+            var raceDay = GetDataObject(raceDayDto);
+            _horseRacingRepository.HorseRacingDatabase.RaceDays.Update(raceDay);
+            _horseRacingRepository.SaveChanges();
+            return raceDayDto;
+        }
+
 
         public DTO.RaceDay GetById(int id)
         {
@@ -39,7 +52,7 @@ namespace HorseRacing.Service
 
         public IEnumerable<DTO.RaceDay> GetByRaceDate(DateTime raceDate)
         {
-            return _horseRacingRepository.HorseRacingDatabase.RaceDays.Where(r=>r.RaceDate == raceDate).OrderBy(s => s.RaceDate).Select(t => GetDTOObject(t));
+            return _horseRacingRepository.HorseRacingDatabase.RaceDays.Where(r => r.RaceDate == raceDate).OrderBy(s => s.RaceDate).Select(t => GetDTOObject(t));
         }
 
         public IEnumerable<DTO.RaceDay> GetByTrackId(string trackId)
@@ -57,8 +70,9 @@ namespace HorseRacing.Service
                     Id = data.Id,
                     TrackId = data.Track.Id,
                     TrackCode = data.TrackCode,
+                    RaceDate = (DateTime)data.RaceDate,
                     RaceDateString = data.RaceDateString,
-                    RaceDate = (DateTime)data.RaceDate
+                    RaceDayIdString = data.RaceDayIdString
                 };
             }
 
@@ -74,14 +88,15 @@ namespace HorseRacing.Service
                 raceDay = new RaceDay
                 {
                     Id = dto.Id,
-                    RaceDate = dto.RaceDate,
                     TrackId = dto.TrackId,
+                    TrackCode = dto.TrackCode,
+                    RaceDate = dto.RaceDate,
                     RaceDateString = dto.RaceDateString,
-                    TrackCode = dto.TrackCode
+                    RaceDayIdString = dto.RaceDayIdString
                 };
             }
             return raceDay;
         }
-        
+
     }
 }

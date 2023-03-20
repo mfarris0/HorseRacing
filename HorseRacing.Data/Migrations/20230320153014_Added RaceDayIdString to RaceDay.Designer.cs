@@ -4,14 +4,16 @@ using HorseRacing.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HorseRacing.Data.Migrations
 {
     [DbContext(typeof(HorseRacingDbContext))]
-    partial class HorseRacingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230320153014_Added RaceDayIdString to RaceDay")]
+    partial class AddedRaceDayIdStringtoRaceDay
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

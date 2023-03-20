@@ -11,6 +11,8 @@ namespace HorseRacing.Service.Interfaces
     {
         DTO.RaceDay Add(DTO.RaceDay raceDayDto);
 
+        DTO.RaceDay Update(DTO.RaceDay raceDayDto);
+
         DTO.RaceDay GetById(int id);
 
         IEnumerable<DTO.RaceDay> GetByRaceDate(DateTime raceDate);

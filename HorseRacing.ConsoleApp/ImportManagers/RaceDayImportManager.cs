@@ -16,13 +16,15 @@ namespace HorseRacing.ConsoleApp.ImportManagers
 
         public RaceDay CreateRaceDay()
         {
-            var raceDateField = _fields[1];
+            var raceDateField = _fields[1].Trim();
+            var raceDayIdString = $"{raceDateField}{_track.BRISCode}";
             var raceDay = new RaceDay
             {
                 Track = _track,
-                RaceDateString = raceDateField,
                 TrackCode = _track.BRISCode,
-                RaceDate = CreateDate(raceDateField) 
+                RaceDateString = raceDateField,
+                RaceDate = CreateDate(raceDateField),
+                RaceDayIdString = raceDayIdString
 
             };
             return raceDay;
