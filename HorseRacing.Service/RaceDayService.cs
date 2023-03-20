@@ -75,11 +75,10 @@ namespace HorseRacing.Service
                 {
                     Id = dto.Id,
                     RaceDate = dto.RaceDate,
+                    TrackId = dto.TrackId,
                     RaceDateString = dto.RaceDateString,
                     TrackCode = dto.TrackCode
                 };
-                var track = trackService.GetById(dto.TrackId);
-                raceDay.Track = GetTrackDataObject(track);
             }
             return raceDay;
         }
