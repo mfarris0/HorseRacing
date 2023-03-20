@@ -28,6 +28,9 @@ namespace HorseRacing.Service
                 _horseRacingRepository.SaveChanges();
                 trackDto.Id = data.Id;
             }
+            else
+                trackDto = GetDTOObject(result);
+
             return trackDto;
         }
 

@@ -29,7 +29,7 @@ namespace HorseRacing.Service
             }
             else
             {
-                raceDayDto = Update(raceDayDto);
+                raceDayDto = GetDTOObject(result);
             }
             return raceDayDto;
         }

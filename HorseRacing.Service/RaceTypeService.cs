@@ -18,17 +18,19 @@ namespace HorseRacing.Service
             _horseRacingRepository = horseRacingRepository;
         }
 
-        public DTO.RaceType Add(DTO.RaceType trackDto)
+        public DTO.RaceType Add(DTO.RaceType raceTypeDto)
         {
-            var result = _horseRacingRepository.HorseRacingDatabase.RaceTypes.Where(r => r.BRISCode == trackDto.BRISCode).FirstOrDefault();
+            var result = _horseRacingRepository.HorseRacingDatabase.RaceTypes.Where(r => r.BRISCode == raceTypeDto.BRISCode).FirstOrDefault();
             if (result == null)
             {
-                var data = GetDataObject(trackDto);
+                var data = GetDataObject(raceTypeDto);
                 _horseRacingRepository.HorseRacingDatabase.RaceTypes.Add(data);
                 _horseRacingRepository.SaveChanges();
-                trackDto.Id = data.Id;
+                raceTypeDto.Id = data.Id;
             }
-            return trackDto;
+            else
+                raceTypeDto = GetDTOObject(result);
+            return raceTypeDto;
         }
 
         public IEnumerable<DTO.RaceType> GetList()

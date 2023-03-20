@@ -28,6 +28,8 @@ namespace HorseRacing.Service
                 _horseRacingRepository.SaveChanges();
                 raceSurfaceDto.Id = data.Id;
             }
+            else
+                raceSurfaceDto = GetDTOObject(result);
             return raceSurfaceDto;
         }
 

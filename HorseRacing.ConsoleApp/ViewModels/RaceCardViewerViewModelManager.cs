@@ -58,18 +58,18 @@ namespace HorseRacing.ConsoleApp
             return textFieldParser;
         }
 
-        private void LoadRaceDay(string[] fields, RaceCardViewerViewModel viewer)
-        {
-            var raceDayImportManager = new RaceDayImportManager(fields, viewer.Track);
-            viewer.RaceDay = raceDayImportManager.CreateRaceDay();
-        }
-
         private void LoadTrack(string[] fields, RaceCardViewerViewModel viewer)
         {
             var trackImportManager = new TrackImportManager(fields);
             viewer.Track = trackImportManager.CreateTrack();
         }
 
+        private void LoadRaceDay(string[] fields, RaceCardViewerViewModel viewer)
+        {
+            var raceDayImportManager = new RaceDayImportManager(fields, viewer.Track);
+            viewer.RaceDay = raceDayImportManager.CreateRaceDay();
+        }
+       
         private RaceSurface GetRaceSurface(string[] fields, RaceCardViewerViewModel viewer)
         {
             RaceSurfaceImportManager raceSurfaceImportManager = new RaceSurfaceImportManager(fields);

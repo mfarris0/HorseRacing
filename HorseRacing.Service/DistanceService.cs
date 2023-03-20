@@ -18,17 +18,20 @@ namespace HorseRacing.Service
             _horseRacingRepository = horseRacingRepository;
         }
 
-        public DTO.Distance Add(DTO.Distance trackDto)
+        public DTO.Distance Add(DTO.Distance distanceDto)
         {
-            var result = _horseRacingRepository.HorseRacingDatabase.Distances.Where(r => r.BRISCode == trackDto.BRISCode).FirstOrDefault();
+            var result = _horseRacingRepository.HorseRacingDatabase.Distances.Where(r => r.BRISCode == distanceDto.BRISCode).FirstOrDefault();
             if (result == null)
             {
-                var data = GetDataObject(trackDto);
+                var data = GetDataObject(distanceDto);
                 _horseRacingRepository.HorseRacingDatabase.Distances.Add(data);
                 _horseRacingRepository.SaveChanges();
-                trackDto.Id = data.Id;
+                distanceDto.Id = data.Id;
             }
-            return trackDto;
+            else
+                distanceDto = GetDTOObject(result);
+
+            return distanceDto;
         }
 
         public IEnumerable<DTO.Distance> GetList()
