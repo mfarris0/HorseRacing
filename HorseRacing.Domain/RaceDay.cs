@@ -15,6 +15,10 @@ namespace HorseRacing.Domain
         [StringLength(3)]
         public string TrackCode { get; set; }
 
+        [StringLength(3)]
+        public string TrackId { get; set; }
+
+        
         [Required]
         public Track Track { get; set; }
 

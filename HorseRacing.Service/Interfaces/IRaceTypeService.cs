@@ -5,11 +5,10 @@ namespace HorseRacing.Service.Interfaces
 {
     public interface IRaceTypeService
     {
-        RaceType Add(RaceType raceType);
+        DTO.RaceType Add(DTO.RaceType raceType);
 
-        IEnumerable<RaceType> GetList(); // Get all fields in track table
+        IEnumerable<DTO.RaceType> GetList(); // Get all fields in track table
 
-        IEnumerable<RaceType> GetLookup(); // Get Id and Name fields only.
     }
 
 }

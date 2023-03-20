@@ -10,12 +10,15 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\HorseRacing.Data\HorseRacing.Data.csproj" />
     <ProjectReference Include="..\HorseRacing.Domain\HorseRacing.Domain.csproj" />
+    <ProjectReference Include="..\HorseRacing.Service\HorseRacing.Service.csproj" />
     <ProjectReference Include="..\HorseRacing.Utility\HorseRacing.Utility.csproj" />
   </ItemGroup>
 

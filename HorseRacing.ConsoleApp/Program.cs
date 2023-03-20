@@ -1,7 +1,10 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Configuration;
-using System.IO;
+using HorseRacing.Domain;
+using HorseRacing.Service;
+using HorseRacing.Data;
 
 namespace HorseRacing.ConsoleApp
 {
@@ -16,10 +19,16 @@ namespace HorseRacing.ConsoleApp
             DisplayExitPrompt();
         }
 
+
+        private static void Initialize()
+        {
+            _applicationTitle = ConfigurationManager.AppSettings[Constants.AppSettings.ApplicationTitle];
+
+        }
+
         private static void Run()
         {
             //DisplayDataFiles();
-
             ImportFiles();
         }
 
@@ -30,11 +39,6 @@ namespace HorseRacing.ConsoleApp
             Console.ReadLine();
         }
 
-        private static void Initialize()
-        {
-            _applicationTitle = ConfigurationManager.AppSettings[Constants.AppSettings.ApplicationTitle];
-
-        }
 
         private static void DisplayDataFiles()
         {
@@ -77,11 +81,145 @@ namespace HorseRacing.ConsoleApp
             }
             else
             {
+                HorseRacingDbContext horseRacingDbContext = new HorseRacingDbContext();
+                HorseRacingRepository horseRacingRepository = new HorseRacingRepository(horseRacingDbContext);
                 Console.WriteLine($"Importing file {file.FullName}");
-                DisplayRaceList(raceCardViewerViewModel);
+                //ImportTrack(horseRacingRepository, raceCardViewerViewModel.Track);
+                //ImportRaceTypes(horseRacingRepository, raceCardViewerViewModel.RaceTypeLookup);
+                //ImportDistances(horseRacingRepository, raceCardViewerViewModel.DistanceLookup);
+                //ImportRaceSurfaces(horseRacingRepository, raceCardViewerViewModel.RaceSurfaceLookup);
+                ImportRaceDay(horseRacingRepository, raceCardViewerViewModel.RaceDay);
+
                 Console.WriteLine();
             }
         }
+
+
+        private static void ImportTrack(HorseRacing.Data.HorseRacingRepository horseRacingRepository, Track track)
+        {
+            var dto = CreateTrackDto(track);
+            TrackService trackService = new TrackService(horseRacingRepository);
+            trackService.Add(dto);
+        }
+
+        private static void ImportRaceTypes(HorseRacingRepository horseRacingRepository, Dictionary<string, RaceType> raceTypeLookup)
+        {
+            foreach (var raceType in raceTypeLookup)
+            {
+                var dto = CreateRaceTypeDto(raceType.Value);
+                RaceTypeService raceTypeService = new RaceTypeService(horseRacingRepository);
+                raceTypeService.Add(dto);
+            }
+        }
+
+        private static void ImportDistances(HorseRacingRepository horseRacingRepository, Dictionary<string, Distance> distanceLookup)
+        {
+            foreach (var distance in distanceLookup)
+            {
+                var dto = CreateDistanceDto(distance.Value);
+                DistanceService distanceService = new DistanceService(horseRacingRepository);
+                distanceService.Add(dto);
+            }
+        }
+
+        private static void ImportRaceSurfaces(HorseRacingRepository horseRacingRepository, Dictionary<string, RaceSurface> raceSurfaceLookup)
+        {
+            Console.WriteLine($"Importing race surfaces...");
+            foreach (var raceSurface in raceSurfaceLookup)
+            {
+                Console.WriteLine($"...{raceSurface.Value}");
+                var dto = CreateRaceSurfaceDto(raceSurface.Value);
+                RaceSurfaceService raceSurfaceService = new RaceSurfaceService(horseRacingRepository);
+                raceSurfaceService.Add(dto);
+            }
+        }
+
+        private static void ImportRaceDay(HorseRacing.Data.HorseRacingRepository horseRacingRepository, RaceDay raceDay)
+        {
+            var dto = CreateRaceDayDto(raceDay);
+            RaceDayService raceDayService = new RaceDayService(horseRacingRepository);
+            raceDayService.Add(dto);
+        }
+
+
+
+        private static DTO.Track CreateTrackDto(Track track)
+        {
+            DTO.Track dto = null;
+            if (track != null)
+            {
+                dto = new DTO.Track
+                {
+                    Id = track.Id,
+                    BRISCode = track.BRISCode,
+                    Name = track.Name
+                };
+            }
+            return dto;
+        }
+
+        private static DTO.RaceType CreateRaceTypeDto(RaceType raceType)
+        {
+            DTO.RaceType dto = null;
+            if (raceType != null)
+            {
+                dto = new DTO.RaceType
+                {
+                    Id = raceType.Id,
+                    BRISCode = raceType.BRISCode,
+                    Name = raceType.Name
+                };
+            }
+            return dto;
+        }
+
+        private static DTO.Distance CreateDistanceDto(Distance distance)
+        {
+            DTO.Distance dto = null;
+            if (distance != null)
+            {
+                dto = new DTO.Distance
+                {
+                    Id = distance.Id,
+                    BRISCode = distance.BRISCode,
+                    Name = distance.Name
+                };
+            }
+            return dto;
+        }
+
+        private static DTO.RaceSurface CreateRaceSurfaceDto(RaceSurface raceSurface)
+        {
+            DTO.RaceSurface dto = null;
+            if (raceSurface != null)
+            {
+                dto = new DTO.RaceSurface
+                {
+                    Id = raceSurface.Id,
+                    BRISCode = raceSurface.BRISCode,
+                    Name = raceSurface.Name
+                };
+            }
+            return dto;
+        }
+
+        private static DTO.RaceDay CreateRaceDayDto(RaceDay raceDay)
+        {
+            DTO.RaceDay dto = null;
+            if (raceDay != null)
+            {
+                dto = new DTO.RaceDay
+                {
+                    Id = raceDay.Id,
+                    RaceDate = (DateTime)raceDay.RaceDate,
+                    RaceDateString = raceDay.RaceDateString,
+                    TrackCode = raceDay.TrackCode,
+                    TrackId = raceDay.Track.Id
+                };
+            }
+            return dto;
+        }
+
 
         private static void DisplayRaceList(RaceCardViewerViewModel raceCardViewerViewModel)
         {

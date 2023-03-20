@@ -9,46 +9,39 @@ using System.Threading.Tasks;
 
 namespace HorseRacing.Service
 {
-    public class TrackService : ITrackService
+    public class DistanceService : IDistanceService
     {
         private readonly IHorseRacingRepository _horseRacingRepository;
         
-        public TrackService(IHorseRacingRepository horseRacingRepository)
+        public DistanceService(IHorseRacingRepository horseRacingRepository)
         {
             _horseRacingRepository = horseRacingRepository;
         }
 
-        public DTO.Track Add(DTO.Track trackDto)
+        public DTO.Distance Add(DTO.Distance trackDto)
         {
-            var result = _horseRacingRepository.HorseRacingDatabase.Tracks.Where(r => r.BRISCode == trackDto.BRISCode).FirstOrDefault();
+            var result = _horseRacingRepository.HorseRacingDatabase.Distances.Where(r => r.BRISCode == trackDto.BRISCode).FirstOrDefault();
             if (result == null)
             {
                 var data = GetDataObject(trackDto);
-                _horseRacingRepository.HorseRacingDatabase.Tracks.Add(data);
+                _horseRacingRepository.HorseRacingDatabase.Distances.Add(data);
                 _horseRacingRepository.SaveChanges();
                 trackDto.Id = data.Id;
             }
             return trackDto;
         }
 
-        public IEnumerable<DTO.Track> GetList()
+        public IEnumerable<DTO.Distance> GetList()
         {
-            return _horseRacingRepository.HorseRacingDatabase.Tracks.OrderBy(r => r.Name).Select(r => GetDTOObject(r));
+            return _horseRacingRepository.HorseRacingDatabase.Distances.OrderBy(r => r.Name).Select(r => GetDTOObject(r));
         }
 
-        public DTO.Track GetById(string id)
+        private DTO.Distance GetDTOObject(Distance data)
         {
-            var track = _horseRacingRepository.HorseRacingDatabase.Tracks.Find(id);
-            var trackDto = GetDTOObject(track);
-            return trackDto;
-        }
-
-        private DTO.Track GetDTOObject(Track data)
-        {
-            DTO.Track dto = null;
+            DTO.Distance dto = null;
             if (data != null)
             {
-                dto = new DTO.Track
+                dto = new DTO.Distance
                 {
                     Id = data.Id,
                     BRISCode = data.BRISCode,
@@ -59,12 +52,12 @@ namespace HorseRacing.Service
             return dto;
         }
         
-        private Track GetDataObject(DTO.Track dto)
+        private Distance GetDataObject(DTO.Distance dto)
         {
-            Track track = null;
+            Distance track = null;
             if (dto != null)
             {
-                track = new Track
+                track = new Distance
                 {
                     Id = dto.Id,
                     BRISCode = dto.BRISCode,

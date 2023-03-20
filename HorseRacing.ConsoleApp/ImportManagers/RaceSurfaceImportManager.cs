@@ -17,7 +17,7 @@ namespace HorseRacing.ConsoleApp.ImportManagers
             {
                 Id = raceSurfaceField,
                 BRISCode = raceSurfaceField,
-                Name = $"{raceSurfaceField} - RECONCILE"
+                Name = $"{raceSurfaceField}"
             };
             return raceSurface;
         }

@@ -7,13 +7,11 @@ using System.Threading.Tasks;
 
 namespace HorseRacing.Service.Interfaces
 {
-    public interface ITrackService
+    public interface IDistanceService
     {
-        DTO.Track Add(DTO.Track trackDto);
+        DTO.Distance Add(DTO.Distance distanceDto);
 
-        IEnumerable<DTO.Track> GetList();
-
-        DTO.Track GetById(string id);
+        IEnumerable<DTO.Distance> GetList(); // Get all fields in track table
 
     }
 
