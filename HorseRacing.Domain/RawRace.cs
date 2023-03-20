@@ -50,17 +50,29 @@ namespace HorseRacing.Domain
         [StringLength(500)]
         public string Conditions { get; set; }
 
+        
+        [StringLength(2)]
+        public string RaceTypeId { get; set; }
+
         [Required]
         [StringLength(2)]
         public RaceType RaceType { get; set; }
 
+
+        [StringLength(6)]
+        public string DistanceId { get; set; }
+                
         [Required]
         [StringLength(6)]
         public Distance Distance { get; set; }
 
+        public string RaceSurfaceId { get; set; }
+
         [Required]
         [StringLength(1)]
         public RaceSurface RaceSurface { get; set; }
+
+        public int RaceDayId { get; set; }
 
         [Required]
         public RaceDay RaceDay { get; set; }

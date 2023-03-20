@@ -82,21 +82,6 @@ namespace HorseRacing.Service
             }
             return raceDay;
         }
-
-        private Track GetTrackDataObject(DTO.Track dto)
-        {
-            Track track = null;
-            if (dto != null)
-            {
-                track = new Track
-                {
-                    Id = dto.Id,
-                    BRISCode = dto.BRISCode,
-                    Name = dto.Name
-                };
-            }
-            return track;
-        }
-
+        
     }
 }
