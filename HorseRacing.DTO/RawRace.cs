@@ -25,5 +25,8 @@ namespace HorseRacing.DTO
 
         public int RaceDayId { get; set; }
 
+        public string RaceDayIdString { get; set; } //$"{RaceDate}{Track}"; // RaceDate (8) + Track (3)
+
+
     }
 }

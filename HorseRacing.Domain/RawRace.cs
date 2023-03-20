@@ -77,6 +77,10 @@ namespace HorseRacing.Domain
         [Required]
         public RaceDay RaceDay { get; set; }
 
+        [StringLength(11)]
+        public string RaceDayIdString { get; set; } //$"{RaceDate}{Track}"; // RaceDate (8) + Track (3)
+
+
         public List<RawRaceHorse> RaceHorseList { get; set; } = new List<RawRaceHorse>();
 
         public override string ToString()

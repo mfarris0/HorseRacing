@@ -56,6 +56,11 @@ namespace HorseRacing.Domain
         [StringLength(30)]
         public string TrainerName { get; set; }
 
+        
+        [Required]
+        [StringLength(13)]
+        public string RawRaceId { get; set; }
+
         [Required]
         public RawRace RawRace { get; set; }
 

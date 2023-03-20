@@ -31,7 +31,8 @@ namespace HorseRacing.ConsoleApp.ImportManagers
                 RaceType = _raceType,
                 Distance = _distance,
                 RaceSurface=_raceSurface,
-                RaceDay = _raceDay
+                RaceDay = _raceDay,
+                RaceDayIdString = _raceDay.RaceDayIdString
             };
             return rawRace;
         }
@@ -41,9 +42,8 @@ namespace HorseRacing.ConsoleApp.ImportManagers
             // RaceDate (8) + Track (3) + RaceNumber (2)
             //  Example = 20230314CD01
 
-            string raceDayId = $"{_raceDay.RaceDateString}{_raceDay.TrackCode}";
             string raceNumber = _fields[2];
-            return $"{raceDayId}{raceNumber.PadLeft(2, '0')}"; 
+            return $"{_raceDay.RaceDayIdString}{raceNumber.PadLeft(2, '0')}"; 
         }
     }
 

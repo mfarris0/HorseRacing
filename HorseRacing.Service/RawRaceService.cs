@@ -56,7 +56,8 @@ namespace HorseRacing.Service
                     Purse = data.Purse,
                     Classification = data.Classification,
                     Conditions = data.Conditions,
-                    RaceTypeId = data.RaceTypeId
+                    RaceTypeId = data.RaceTypeId,
+                    RaceDayIdString = data.RaceDayIdString
                 };
             }
 
@@ -78,7 +79,8 @@ namespace HorseRacing.Service
                     Purse = dto.Purse,
                     Classification = dto.Classification,
                     Conditions = dto.Conditions,
-                    RaceTypeId = dto.RaceTypeId
+                    RaceTypeId = dto.RaceTypeId,
+                    RaceDayIdString = dto.RaceDayIdString
                 };
             }
             return rawRace;

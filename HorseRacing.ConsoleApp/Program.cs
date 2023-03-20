@@ -253,7 +253,8 @@ namespace HorseRacing.ConsoleApp
                     Purse = data.Purse,
                     Classification = data.Classification,
                     Conditions = data.Conditions,
-                    RaceTypeId = data.RaceTypeId
+                    RaceTypeId = data.RaceTypeId,
+                    RaceDayIdString = data.RaceDayIdString
                 };
             }
 

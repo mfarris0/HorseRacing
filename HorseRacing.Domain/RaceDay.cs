@@ -27,7 +27,6 @@ namespace HorseRacing.Domain
         [StringLength(8)]
         public string RaceDateString { get; set; }
 
-        [Required]
         [StringLength(11)]
         public string RaceDayIdString { get; set; } //$"{RaceDate}{Track}"; // RaceDate (8) + Track (3)
 
