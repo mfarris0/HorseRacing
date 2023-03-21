@@ -22,12 +22,13 @@ namespace HorseRacing.ConsoleApp.ImportManagers
             var rawRaceHorse = new RawRaceHorse
             {
                 Id = CreateId(),
-                HorseName = _fields[44],
-                JockeyName = _fields[32],
-                MorningLineOdds = _fields[43],
                 PostPosition = _fields[3],
-                TrainerName = _fields[27],
+                HorseName = _fields[44],
+                MorningLineOdds = _fields[43],
+                JockeyName = _fields[32],
                 WeightCarried = _fields[50],
+                TrainerName = _fields[27],
+                RawRaceId = _rawRace.Id,
                 RawRace = _rawRace
             };
             return rawRaceHorse;

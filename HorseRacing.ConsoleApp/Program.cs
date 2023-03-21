@@ -90,8 +90,7 @@ namespace HorseRacing.ConsoleApp
                 ImportDistances(horseRacingRepository, raceCardViewerViewModel.DistanceLookup);
                 ImportRaceSurfaces(horseRacingRepository, raceCardViewerViewModel.RaceSurfaceLookup);
                 ImportRaceDay(horseRacingRepository, raceCardViewerViewModel.RaceDay);
-                ImportRawRace(horseRacingRepository, raceCardViewerViewModel.RaceCard, raceCardViewerViewModel);
-
+                ImportRawRaces(horseRacingRepository, raceCardViewerViewModel.RaceCard, raceCardViewerViewModel);
 
                 Console.WriteLine();
             }
@@ -145,10 +144,11 @@ namespace HorseRacing.ConsoleApp
             raceDay.Id = dto.Id;
         }
 
-        private static void ImportRawRace(HorseRacing.Data.HorseRacingRepository horseRacingRepository, List<RawRace> rawRaces, RaceCardViewerViewModel raceCardViewerViewModel)
+        private static void ImportRawRaces(HorseRacing.Data.HorseRacingRepository horseRacingRepository, List<RawRace> rawRaces, RaceCardViewerViewModel raceCardViewerViewModel)
         {
             foreach (var rawRace in rawRaces)
             {
+                Console.WriteLine($"Importing Race {rawRace.Id}...");
                 rawRace.DistanceId = raceCardViewerViewModel.DistanceLookup.Where(r => r.Value.BRISCode == rawRace.Distance.BRISCode).FirstOrDefault().Value.Id;
                 rawRace.RaceSurfaceId = raceCardViewerViewModel.RaceSurfaceLookup.Where(r => r.Value.BRISCode == rawRace.RaceSurface.BRISCode).FirstOrDefault().Value.Id;
                 rawRace.RaceTypeId = raceCardViewerViewModel.RaceTypeLookup.Where(r => r.Value.BRISCode == rawRace.RaceType.BRISCode).FirstOrDefault().Value.Id;
@@ -156,9 +156,22 @@ namespace HorseRacing.ConsoleApp
                 var dto = CreateRawRaceDto(rawRace);
                 RawRaceService rawRaceService = new RawRaceService(horseRacingRepository);
                 rawRaceService.Add(dto);
+
+                ImportRawRaceHorses(horseRacingRepository, rawRace);
             }
         }
 
+        private static void ImportRawRaceHorses(HorseRacingRepository horseRacingRepository, RawRace rawRace)
+        {
+            Console.WriteLine($"...getting horses for race {rawRace.Id}");
+            foreach (var horse in rawRace.RaceHorseList)
+            {
+                Console.WriteLine($"...importing horse {horse.HorseName}");
+                var dto = CreateRawRaceHorseDto(horse);
+                RawRaceHorseService service = new RawRaceHorseService(horseRacingRepository);
+                service.Add(dto);
+            }
+        }
 
         private static DTO.Track CreateTrackDto(Track track)
         {
@@ -258,6 +271,26 @@ namespace HorseRacing.ConsoleApp
                 };
             }
 
+            return dto;
+        }
+
+        private static DTO.RawRaceHorse CreateRawRaceHorseDto(RawRaceHorse rawRaceHorse)
+        {
+            DTO.RawRaceHorse dto = null;
+            if (rawRaceHorse != null)
+            {
+                dto = new DTO.RawRaceHorse
+                {
+                    Id = rawRaceHorse.Id,
+                    PostPosition = rawRaceHorse.PostPosition,
+                    HorseName = rawRaceHorse.HorseName,
+                    MorningLineOdds = rawRaceHorse.MorningLineOdds,
+                    JockeyName = rawRaceHorse.JockeyName,
+                    WeightCarried = rawRaceHorse.WeightCarried,
+                    TrainerName = rawRaceHorse.TrainerName,
+                    RawRaceId = rawRaceHorse.RawRaceId
+                };
+            }
             return dto;
         }
 
