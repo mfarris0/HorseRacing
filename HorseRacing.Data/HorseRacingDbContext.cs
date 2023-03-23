@@ -10,10 +10,14 @@ namespace HorseRacing.Data
 {
     public class HorseRacingDbContext : DbContext
     {
-        //public HorseRacingDbContext(DbContextOptions<HorseRacingDbContext> options) : base(options)
-        //{
+        public HorseRacingDbContext()
+        {
 
-        //}
+        }
+        public HorseRacingDbContext(DbContextOptions<HorseRacingDbContext> options) : base(options)
+        {
+
+        }
 
         public DbSet<Track> Tracks { get; set; }
 
