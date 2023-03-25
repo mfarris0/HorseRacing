@@ -11,21 +11,21 @@ namespace HorseRacing.Service
 {
     public class TrackService : ITrackService
     {
-        private readonly IHorseRacingRepository _horseRacingRepository;
+        private readonly HorseRacingDbContext _horseRacingDbContext;
         
-        public TrackService(IHorseRacingRepository horseRacingRepository)
+        public TrackService(HorseRacingDbContext horseRacingRepository)
         {
-            _horseRacingRepository = horseRacingRepository;
+            _horseRacingDbContext = horseRacingRepository;
         }
 
         public DTO.Track Add(DTO.Track trackDto)
         {
-            var result = _horseRacingRepository.HorseRacingDatabase.Tracks.Where(r => r.BRISCode == trackDto.BRISCode).FirstOrDefault();
+            var result = _horseRacingDbContext.Tracks.Where(r => r.BRISCode == trackDto.BRISCode).FirstOrDefault();
             if (result == null)
             {
                 var data = GetDataObject(trackDto);
-                _horseRacingRepository.HorseRacingDatabase.Tracks.Add(data);
-                _horseRacingRepository.SaveChanges();
+                _horseRacingDbContext.Tracks.Add(data);
+                _horseRacingDbContext.SaveChanges();
                 trackDto.Id = data.Id;
             }
             else
@@ -36,12 +36,12 @@ namespace HorseRacing.Service
 
         public IEnumerable<DTO.Track> GetList()
         {
-            return _horseRacingRepository.HorseRacingDatabase.Tracks.OrderBy(r => r.Name).Select(r => GetDTOObject(r));
+            return _horseRacingDbContext.Tracks.OrderBy(r => r.Name).Select(r => GetDTOObject(r));
         }
 
         public DTO.Track GetById(string id)
         {
-            var track = _horseRacingRepository.HorseRacingDatabase.Tracks.Find(id);
+            var track = _horseRacingDbContext.Tracks.Find(id);
             var trackDto = GetDTOObject(track);
             return trackDto;
         }

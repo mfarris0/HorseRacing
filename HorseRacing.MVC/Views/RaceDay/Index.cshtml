@@ -1,0 +1,31 @@
+﻿@model IEnumerable<HorseRacing.Domain.RaceDay>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Race Days</h1>
+
+
+<div class="table-responsive">
+
+    <table class="table">
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr class="row">
+                    <td>
+                        <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.Id">View</a>
+                    </td>
+                    <td class="col-3">
+                        @item.Track.Name
+                    </td>
+                    <td class="col-2">
+                        @item.RaceDate?.ToShortDateString()
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>

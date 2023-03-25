@@ -13,8 +13,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using HorseRacing.Domain;
-
-
+using HorseRacing.Service.Interfaces;
+using HorseRacing.Service;
+using HorseRacing.Data;
 namespace HorseRacing.API
 {
     public class Startup
@@ -36,9 +37,12 @@ namespace HorseRacing.API
             //{
             //    c.SwaggerDoc("v1", new OpenApiInfo { Title = "HorseRacing.API", Version = "v1" });
             //});
+            
             const string DefaultConnection = "DefaultConnection";
+            services.AddDbContext<HorseRacingDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString(DefaultConnection)));
+            services.AddScoped<IRaceTypeService, RaceTypeService>();
             services.AddControllers();
-            services.AddDbContext<HorseRacing.Data.HorseRacingDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString(DefaultConnection)));
+
 
         }
 

@@ -11,21 +11,21 @@ namespace HorseRacing.Service
 {
     public class RaceTypeService : IRaceTypeService
     {
-        private readonly IHorseRacingRepository _horseRacingRepository;
+        private readonly HorseRacingDbContext _horseRacingDbContext;
 
-        public RaceTypeService(IHorseRacingRepository horseRacingRepository)
+        public RaceTypeService(HorseRacingDbContext  horseRacingDbContext)
         {
-            _horseRacingRepository = horseRacingRepository;
+            _horseRacingDbContext = horseRacingDbContext;
         }
 
         public DTO.RaceType Add(DTO.RaceType raceTypeDto)
         {
-            var result = _horseRacingRepository.HorseRacingDatabase.RaceTypes.Where(r => r.BRISCode == raceTypeDto.BRISCode).FirstOrDefault();
+            var result = _horseRacingDbContext.RaceTypes.Where(r => r.BRISCode == raceTypeDto.BRISCode).FirstOrDefault();
             if (result == null)
             {
                 var data = GetDataObject(raceTypeDto);
-                _horseRacingRepository.HorseRacingDatabase.RaceTypes.Add(data);
-                _horseRacingRepository.SaveChanges();
+                _horseRacingDbContext.RaceTypes.Add(data);
+                _horseRacingDbContext.SaveChanges();
                 raceTypeDto.Id = data.Id;
             }
             else
@@ -33,9 +33,16 @@ namespace HorseRacing.Service
             return raceTypeDto;
         }
 
-        public IEnumerable<DTO.RaceType> GetList()
+        public IEnumerable<DTO.RaceType> GetAll()
         {
-            return _horseRacingRepository.HorseRacingDatabase.RaceTypes.OrderBy(r => r.Name).Select(r => GetDTOObject(r));
+            return _horseRacingDbContext.RaceTypes.OrderBy(r => r.Name).Select(r => GetDTOObject(r));
+        }
+
+        public DTO.RaceType GetById(string id)
+        {
+            var data = _horseRacingDbContext.RaceTypes.Find(id);
+            var dto = GetDTOObject(data);
+            return dto;
         }
 
         private DTO.RaceType GetDTOObject(RaceType data)
@@ -68,5 +75,6 @@ namespace HorseRacing.Service
             }
             return track;
         }
+
     }
 }

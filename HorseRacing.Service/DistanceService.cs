@@ -11,21 +11,21 @@ namespace HorseRacing.Service
 {
     public class DistanceService : IDistanceService
     {
-        private readonly IHorseRacingRepository _horseRacingRepository;
+        private readonly HorseRacingDbContext _horseRacingDbContext;
         
-        public DistanceService(IHorseRacingRepository horseRacingRepository)
+        public DistanceService(HorseRacingDbContext horseRacingRepository)
         {
-            _horseRacingRepository = horseRacingRepository;
+            _horseRacingDbContext = horseRacingRepository;
         }
 
         public DTO.Distance Add(DTO.Distance distanceDto)
         {
-            var result = _horseRacingRepository.HorseRacingDatabase.Distances.Where(r => r.BRISCode == distanceDto.BRISCode).FirstOrDefault();
+            var result = _horseRacingDbContext.Distances.Where(r => r.BRISCode == distanceDto.BRISCode).FirstOrDefault();
             if (result == null)
             {
                 var data = GetDataObject(distanceDto);
-                _horseRacingRepository.HorseRacingDatabase.Distances.Add(data);
-                _horseRacingRepository.SaveChanges();
+                _horseRacingDbContext.Distances.Add(data);
+                _horseRacingDbContext.SaveChanges();
                 distanceDto.Id = data.Id;
             }
             else
@@ -36,7 +36,7 @@ namespace HorseRacing.Service
 
         public IEnumerable<DTO.Distance> GetList()
         {
-            return _horseRacingRepository.HorseRacingDatabase.Distances.OrderBy(r => r.Name).Select(r => GetDTOObject(r));
+            return _horseRacingDbContext.Distances.OrderBy(r => r.Name).Select(r => GetDTOObject(r));
         }
 
         private DTO.Distance GetDTOObject(Distance data)

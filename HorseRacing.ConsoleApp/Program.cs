@@ -83,68 +83,67 @@ namespace HorseRacing.ConsoleApp
             else
             {
                 HorseRacingDbContext horseRacingDbContext = new HorseRacingDbContext();
-                HorseRacingRepository horseRacingRepository = new HorseRacingRepository(horseRacingDbContext);
                 Console.WriteLine($"Importing file {file.FullName}");
-                ImportTrack(horseRacingRepository, raceCardViewerViewModel.Track);
-                ImportRaceTypes(horseRacingRepository, raceCardViewerViewModel.RaceTypeLookup);
-                ImportDistances(horseRacingRepository, raceCardViewerViewModel.DistanceLookup);
-                ImportRaceSurfaces(horseRacingRepository, raceCardViewerViewModel.RaceSurfaceLookup);
-                ImportRaceDay(horseRacingRepository, raceCardViewerViewModel.RaceDay);
-                ImportRawRaces(horseRacingRepository, raceCardViewerViewModel.RaceCard, raceCardViewerViewModel);
+                ImportTrack(horseRacingDbContext, raceCardViewerViewModel.Track);
+                ImportRaceTypes(horseRacingDbContext, raceCardViewerViewModel.RaceTypeLookup);
+                ImportDistances(horseRacingDbContext, raceCardViewerViewModel.DistanceLookup);
+                ImportRaceSurfaces(horseRacingDbContext, raceCardViewerViewModel.RaceSurfaceLookup);
+                ImportRaceDay(horseRacingDbContext, raceCardViewerViewModel.RaceDay);
+                ImportRawRaces(horseRacingDbContext, raceCardViewerViewModel.RaceCard, raceCardViewerViewModel);
 
                 Console.WriteLine();
             }
         }
 
 
-        private static void ImportTrack(HorseRacing.Data.HorseRacingRepository horseRacingRepository, Track track)
+        private static void ImportTrack(HorseRacingDbContext horseRacingDbContext, Track track)
         {
             var dto = CreateTrackDto(track);
-            TrackService trackService = new TrackService(horseRacingRepository);
+            TrackService trackService = new TrackService(horseRacingDbContext);
             trackService.Add(dto);
         }
 
-        private static void ImportRaceTypes(HorseRacingRepository horseRacingRepository, Dictionary<string, RaceType> raceTypeLookup)
+        private static void ImportRaceTypes(HorseRacingDbContext horseRacingDbContext, Dictionary<string, RaceType> raceTypeLookup)
         {
             foreach (var raceType in raceTypeLookup)
             {
                 var dto = CreateRaceTypeDto(raceType.Value);
-                RaceTypeService raceTypeService = new RaceTypeService(horseRacingRepository);
+                RaceTypeService raceTypeService = new RaceTypeService(horseRacingDbContext);
                 raceTypeService.Add(dto);
             }
         }
 
-        private static void ImportDistances(HorseRacingRepository horseRacingRepository, Dictionary<string, Distance> distanceLookup)
+        private static void ImportDistances(HorseRacingDbContext horseRacingDbContext, Dictionary<string, Distance> distanceLookup)
         {
             foreach (var distance in distanceLookup)
             {
                 var dto = CreateDistanceDto(distance.Value);
-                DistanceService distanceService = new DistanceService(horseRacingRepository);
+                DistanceService distanceService = new DistanceService(horseRacingDbContext);
                 distanceService.Add(dto);
             }
         }
 
-        private static void ImportRaceSurfaces(HorseRacingRepository horseRacingRepository, Dictionary<string, RaceSurface> raceSurfaceLookup)
+        private static void ImportRaceSurfaces(HorseRacingDbContext horseRacingDbContext, Dictionary<string, RaceSurface> raceSurfaceLookup)
         {
             Console.WriteLine($"Importing race surfaces...");
             foreach (var raceSurface in raceSurfaceLookup)
             {
                 Console.WriteLine($"...{raceSurface.Value}");
                 var dto = CreateRaceSurfaceDto(raceSurface.Value);
-                RaceSurfaceService raceSurfaceService = new RaceSurfaceService(horseRacingRepository);
+                RaceSurfaceService raceSurfaceService = new RaceSurfaceService(horseRacingDbContext);
                 raceSurfaceService.Add(dto);
             }
         }
 
-        private static void ImportRaceDay(HorseRacing.Data.HorseRacingRepository horseRacingRepository, RaceDay raceDay)
+        private static void ImportRaceDay(HorseRacingDbContext horseRacingDbContext, RaceDay raceDay)
         {
             var dto = CreateRaceDayDto(raceDay);
-            RaceDayService raceDayService = new RaceDayService(horseRacingRepository);
+            RaceDayService raceDayService = new RaceDayService(horseRacingDbContext);
             dto = raceDayService.Add(dto);
             raceDay.Id = dto.Id;
         }
 
-        private static void ImportRawRaces(HorseRacing.Data.HorseRacingRepository horseRacingRepository, List<RawRace> rawRaces, RaceCardViewerViewModel raceCardViewerViewModel)
+        private static void ImportRawRaces(HorseRacingDbContext horseRacingDbContext, List<RawRace> rawRaces, RaceCardViewerViewModel raceCardViewerViewModel)
         {
             foreach (var rawRace in rawRaces)
             {
@@ -154,21 +153,21 @@ namespace HorseRacing.ConsoleApp
                 rawRace.RaceTypeId = raceCardViewerViewModel.RaceTypeLookup.Where(r => r.Value.BRISCode == rawRace.RaceType.BRISCode).FirstOrDefault().Value.Id;
                 rawRace.RaceDayId = raceCardViewerViewModel.RaceDay.Id;
                 var dto = CreateRawRaceDto(rawRace);
-                RawRaceService rawRaceService = new RawRaceService(horseRacingRepository);
+                RawRaceService rawRaceService = new RawRaceService(horseRacingDbContext);
                 rawRaceService.Add(dto);
 
-                ImportRawRaceHorses(horseRacingRepository, rawRace);
+                ImportRawRaceHorses(horseRacingDbContext, rawRace);
             }
         }
 
-        private static void ImportRawRaceHorses(HorseRacingRepository horseRacingRepository, RawRace rawRace)
+        private static void ImportRawRaceHorses(HorseRacingDbContext horseRacingDbContext, RawRace rawRace)
         {
             Console.WriteLine($"...getting horses for race {rawRace.Id}");
             foreach (var horse in rawRace.RaceHorseList)
             {
                 Console.WriteLine($"...importing horse {horse.HorseName}");
                 var dto = CreateRawRaceHorseDto(horse);
-                RawRaceHorseService service = new RawRaceHorseService(horseRacingRepository);
+                RawRaceHorseService service = new RawRaceHorseService(horseRacingDbContext);
                 service.Add(dto);
             }
         }

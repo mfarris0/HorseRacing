@@ -11,21 +11,21 @@ namespace HorseRacing.Service
 {
     public class RawRaceHorseService : IRawRaceHorseService
     {
-        private readonly IHorseRacingRepository _horseRacingRepository;
+        private readonly HorseRacingDbContext _horseRacingDbContext;
         
-        public RawRaceHorseService(IHorseRacingRepository horseRacingRepository)
+        public RawRaceHorseService(HorseRacingDbContext horseRacingRepository)
         {
-            _horseRacingRepository = horseRacingRepository;
+            _horseRacingDbContext = horseRacingRepository;
         }
 
         public DTO.RawRaceHorse Add(DTO.RawRaceHorse rawRaceHorseDto)
         {
-            var result = _horseRacingRepository.HorseRacingDatabase.RawRaceHorses.Where(r => r.HorseName == rawRaceHorseDto.HorseName && r.RawRaceId == rawRaceHorseDto.RawRaceId).FirstOrDefault();
+            var result = _horseRacingDbContext.RawRaceHorses.Where(r => r.HorseName == rawRaceHorseDto.HorseName && r.RawRaceId == rawRaceHorseDto.RawRaceId).FirstOrDefault();
             if (result == null)
             {
                 var data = GetDataObject(rawRaceHorseDto);
-                _horseRacingRepository.HorseRacingDatabase.RawRaceHorses.Add(data);
-                _horseRacingRepository.SaveChanges();
+                _horseRacingDbContext.RawRaceHorses.Add(data);
+                _horseRacingDbContext.SaveChanges();
                 rawRaceHorseDto.Id = data.Id;
             }
             else
@@ -36,7 +36,7 @@ namespace HorseRacing.Service
 
         public DTO.RawRaceHorse GetById(string id)
         {
-            var rawRaceHorse = _horseRacingRepository.HorseRacingDatabase.RawRaceHorses.Find(id);
+            var rawRaceHorse = _horseRacingDbContext.RawRaceHorses.Find(id);
             var rawRaceHorseDto = GetDTOObject(rawRaceHorse);
             return rawRaceHorseDto;
         }

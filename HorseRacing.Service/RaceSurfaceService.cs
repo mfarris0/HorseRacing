@@ -11,21 +11,21 @@ namespace HorseRacing.Service
 {
     public class RaceSurfaceService : IRaceSurfaceService
     {
-        private readonly IHorseRacingRepository _horseRacingRepository;
+        private readonly HorseRacingDbContext _horseRacingDbContext;
         
-        public RaceSurfaceService(IHorseRacingRepository horseRacingRepository)
+        public RaceSurfaceService(HorseRacingDbContext horseRacingRepository)
         {
-            _horseRacingRepository = horseRacingRepository;
+            _horseRacingDbContext = horseRacingRepository;
         }
 
         public DTO.RaceSurface Add(DTO.RaceSurface raceSurfaceDto)
         {
-            var result = _horseRacingRepository.HorseRacingDatabase.RaceSurfaces.Where(r => r.BRISCode == raceSurfaceDto.BRISCode).FirstOrDefault();
+            var result = _horseRacingDbContext.RaceSurfaces.Where(r => r.BRISCode == raceSurfaceDto.BRISCode).FirstOrDefault();
             if (result == null)
             {
                 var data = GetDataObject(raceSurfaceDto);
-                _horseRacingRepository.HorseRacingDatabase.RaceSurfaces.Add(data);
-                _horseRacingRepository.SaveChanges();
+                _horseRacingDbContext.RaceSurfaces.Add(data);
+                _horseRacingDbContext.SaveChanges();
                 raceSurfaceDto.Id = data.Id;
             }
             else
@@ -35,7 +35,7 @@ namespace HorseRacing.Service
 
         public IEnumerable<DTO.RaceSurface> GetList()
         {
-            return _horseRacingRepository.HorseRacingDatabase.RaceSurfaces.OrderBy(r => r.Name).Select(r => GetDTOObject(r));
+            return _horseRacingDbContext.RaceSurfaces.OrderBy(r => r.Name).Select(r => GetDTOObject(r));
         }
 
         private DTO.RaceSurface GetDTOObject(RaceSurface data)

@@ -11,20 +11,20 @@ namespace HorseRacing.Service
 {
     public class RaceDayService : IRaceDayService
     {
-        private readonly IHorseRacingRepository _horseRacingRepository;
-        public RaceDayService(IHorseRacingRepository horseRacingRepository)
+        private readonly HorseRacingDbContext _horseRacingDbContext;
+        public RaceDayService(HorseRacingDbContext horseRacingRepository)
         {
-            _horseRacingRepository = horseRacingRepository;
+            _horseRacingDbContext = horseRacingRepository;
         }
 
         public DTO.RaceDay Add(DTO.RaceDay raceDayDto)
         {
-            var result = _horseRacingRepository.HorseRacingDatabase.RaceDays.Where(r => r.RaceDate == raceDayDto.RaceDate && r.Track.Id == raceDayDto.TrackId).FirstOrDefault();
+            var result = _horseRacingDbContext.RaceDays.Where(r => r.RaceDate == raceDayDto.RaceDate && r.Track.Id == raceDayDto.TrackId).FirstOrDefault();
             if (result == null)
             {
                 var data = GetDataObject(raceDayDto);
-                _horseRacingRepository.HorseRacingDatabase.RaceDays.Add(data);
-                _horseRacingRepository.SaveChanges();
+                _horseRacingDbContext.RaceDays.Add(data);
+                _horseRacingDbContext.SaveChanges();
                 raceDayDto.Id = data.Id;
             }
             else
@@ -37,27 +37,27 @@ namespace HorseRacing.Service
         public DTO.RaceDay Update(DTO.RaceDay raceDayDto)
         {
             var raceDay = GetDataObject(raceDayDto);
-            _horseRacingRepository.HorseRacingDatabase.RaceDays.Update(raceDay);
-            _horseRacingRepository.SaveChanges();
+            _horseRacingDbContext.RaceDays.Update(raceDay);
+            _horseRacingDbContext.SaveChanges();
             return raceDayDto;
         }
 
 
         public DTO.RaceDay GetById(int id)
         {
-            var raceDay = _horseRacingRepository.HorseRacingDatabase.RaceDays.Find(id);
+            var raceDay = _horseRacingDbContext.RaceDays.Find(id);
             var raceDayDto = GetDTOObject(raceDay);
             return raceDayDto;
         }
 
         public IEnumerable<DTO.RaceDay> GetByRaceDate(DateTime raceDate)
         {
-            return _horseRacingRepository.HorseRacingDatabase.RaceDays.Where(r => r.RaceDate == raceDate).OrderBy(s => s.RaceDate).Select(t => GetDTOObject(t));
+            return _horseRacingDbContext.RaceDays.Where(r => r.RaceDate == raceDate).OrderBy(s => s.RaceDate).Select(t => GetDTOObject(t));
         }
 
         public IEnumerable<DTO.RaceDay> GetByTrackId(string trackId)
         {
-            return _horseRacingRepository.HorseRacingDatabase.RaceDays.Where(r => r.Track.Id == trackId).OrderBy(s => s.RaceDate).Select(t => GetDTOObject(t));
+            return _horseRacingDbContext.RaceDays.Where(r => r.Track.Id == trackId).OrderBy(s => s.RaceDate).Select(t => GetDTOObject(t));
         }
 
         private DTO.RaceDay GetDTOObject(RaceDay data)
@@ -84,7 +84,7 @@ namespace HorseRacing.Service
             RaceDay raceDay = null;
             if (dto != null)
             {
-                var trackService = new TrackService(_horseRacingRepository);
+                var trackService = new TrackService(_horseRacingDbContext);
                 raceDay = new RaceDay
                 {
                     Id = dto.Id,

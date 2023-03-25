@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using HorseRacing.Data;
 using HorseRacing.Domain;
+using HorseRacing.Service;
 
 namespace HorseRacing.API.Controllers
 {
@@ -14,109 +15,110 @@ namespace HorseRacing.API.Controllers
     [ApiController]
     public class RaceTypeController : ControllerBase
     {
-        private readonly HorseRacingDbContext _context;
+        private readonly IRaceTypeService _raceTypeService;
 
-        public RaceTypeController(HorseRacingDbContext context)
+        public RaceTypeController(IRaceTypeService raceTypeService)
         {
-            _context = context;
+            this._raceTypeService = raceTypeService;
         }
+
 
         // GET: api/RaceType
         [HttpGet]
         public async Task<ActionResult<IEnumerable<RaceType>>> GetRaceTypes()
         {
-            return await _context.RaceTypes.ToListAsync();
+            return await _raceTypeService.GetAll();
         }
 
-        // GET: api/RaceType/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<RaceType>> GetRaceType(string id)
-        {
-            var raceType = await _context.RaceTypes.FindAsync(id);
+        //// GET: api/RaceType/5
+        //[HttpGet("{id}")]
+        //public async Task<ActionResult<RaceType>> GetRaceType(string id)
+        //{
+        //    var raceType = await _raceTypeService.RaceTypes.FindAsync(id);
 
-            if (raceType == null)
-            {
-                return NotFound();
-            }
+        //    if (raceType == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return raceType;
-        }
+        //    return raceType;
+        //}
 
-        // PUT: api/RaceType/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutRaceType(string id, RaceType raceType)
-        {
-            if (id != raceType.Id)
-            {
-                return BadRequest();
-            }
+        //// PUT: api/RaceType/5
+        //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        //[HttpPut("{id}")]
+        //public async Task<IActionResult> PutRaceType(string id, RaceType raceType)
+        //{
+        //    if (id != raceType.Id)
+        //    {
+        //        return BadRequest();
+        //    }
 
-            _context.Entry(raceType).State = EntityState.Modified;
+        //    _raceTypeService.Entry(raceType).State = EntityState.Modified;
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!RaceTypeExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+        //    try
+        //    {
+        //        await _raceTypeService.SaveChangesAsync();
+        //    }
+        //    catch (DbUpdateConcurrencyException)
+        //    {
+        //        if (!RaceTypeExists(id))
+        //        {
+        //            return NotFound();
+        //        }
+        //        else
+        //        {
+        //            throw;
+        //        }
+        //    }
 
-            return NoContent();
-        }
+        //    return NoContent();
+        //}
 
-        // POST: api/RaceType
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<RaceType>> PostRaceType(RaceType raceType)
-        {
-            _context.RaceTypes.Add(raceType);
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (RaceTypeExists(raceType.Id))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+        //// POST: api/RaceType
+        //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        //[HttpPost]
+        //public async Task<ActionResult<RaceType>> PostRaceType(RaceType raceType)
+        //{
+        //    _raceTypeService.RaceTypes.Add(raceType);
+        //    try
+        //    {
+        //        await _raceTypeService.SaveChangesAsync();
+        //    }
+        //    catch (DbUpdateException)
+        //    {
+        //        if (RaceTypeExists(raceType.Id))
+        //        {
+        //            return Conflict();
+        //        }
+        //        else
+        //        {
+        //            throw;
+        //        }
+        //    }
 
-            return CreatedAtAction(nameof(GetRaceType), new { id = raceType.Id }, raceType);
-        }
+        //    return CreatedAtAction(nameof(GetRaceType), new { id = raceType.Id }, raceType);
+        //}
 
-        // DELETE: api/RaceType/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteRaceType(string id)
-        {
-            var raceType = await _context.RaceTypes.FindAsync(id);
-            if (raceType == null)
-            {
-                return NotFound();
-            }
+        ////DELETE: api/RaceType/5
+        //[HttpDelete("{id}")]
+        //public async Task<IActionResult> DeleteRaceType(string id)
+        //{
+        //    var raceType = await _raceTypeService.RaceTypes.FindAsync(id);
+        //    if (raceType == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            _context.RaceTypes.Remove(raceType);
-            await _context.SaveChangesAsync();
+        //    _raceTypeService.RaceTypes.Remove(raceType);
+        //    await _raceTypeService.SaveChangesAsync();
 
-            return NoContent();
-        }
+        //    return NoContent();
+        //}
 
-        private bool RaceTypeExists(string id)
-        {
-            return _context.RaceTypes.Any(e => e.Id == id);
-        }
+        //private bool RaceTypeExists(string id)
+        //{
+        //    return _raceTypeService.RaceTypes.Any(e => e.Id == id);
+        //}
     }
 }

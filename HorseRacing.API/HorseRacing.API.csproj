@@ -18,6 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\HorseRacing.Data\HorseRacing.Data.csproj" />
     <ProjectReference Include="..\HorseRacing.Domain\HorseRacing.Domain.csproj" />
+    <ProjectReference Include="..\HorseRacing.Service\HorseRacing.Service.csproj" />
   </ItemGroup>
 
 </Project>
