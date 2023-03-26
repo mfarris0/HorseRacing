@@ -28,6 +28,7 @@ namespace HorseRacing.MVC
             services.AddMvc();
             services.AddDbContext<HorseRacing.Data.HorseRacingDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString(HorseRacingConnectionString)));
             services.AddControllersWithViews();
+            services.AddTransient<API.TrackController, API.TrackController>();
 
         }
 

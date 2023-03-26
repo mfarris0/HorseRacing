@@ -1,0 +1,65 @@
+﻿@*@model IEnumerable<HorseRacing.Domain.RawRace>*@
+@model HorseRacing.MVC.ViewModels.RaceDayViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>@Model.RaceDay.Track.Name</h1>
+<h2>@Model.RaceDay.RaceDate?.ToLongDateString()</h2>
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.RawRaces.FirstOrDefault().RaceNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RawRaces.FirstOrDefault().Purse)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RawRaces.FirstOrDefault().Classification)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RawRaces.FirstOrDefault().RaceType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RawRaces.FirstOrDefault().Distance)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RawRaces.FirstOrDefault().RaceSurface)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.RawRaces)
+        {
+            <tr>
+                <td>
+                    <a class="btn btn-primary" asp-action="Index" asp-controller="RawRaceHorse" asp-route-id="@item.Id">View</a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RaceNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Purse)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Classification)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RaceType.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Distance.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RaceSurface.Name)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

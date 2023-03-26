@@ -9,13 +9,12 @@ namespace HorseRacing.MVC.ViewModels
 {
     public class RaceDayViewModel
     {
-        public RaceDayViewModel(IIncludableQueryable<RaceDay, Track> raceDays)
+        public RaceDayViewModel(IIncludableQueryable<RawRace, RaceType> rawRaces)
         {
-            RaceDays = raceDays;
+            RawRaces = rawRaces;
         }
+        public IIncludableQueryable<RawRace, RaceType> RawRaces { get; }
 
-        public IIncludableQueryable<RaceDay, Track> RaceDays { get; }
-
-
+        public RaceDay RaceDay { get; set; }
     }
 }

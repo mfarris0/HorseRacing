@@ -15,8 +15,8 @@ The main project will be an ASP.NET MVC application. It will be written in C#, b
 
 ## Features Implemented from List Provided by Code Louisville
 
- - Implement a Dictionary using it to store and retrieve specific data.
+*** This is a work in progress. The application currently implements the following minimum specs from Code Louisville requirements: ***
  - The database schema will contain mulitple tables - LINQ will be utilized to retrieve data from one or more tables and related entities.
- - Data read from the database will be pulled using an API project as part of the overall solution.
- - One or more database operations will utilize stored procedures. Entity Framework will be used to call the stored procedures.
+ - The Maintenance menu contains a Track menu item. The list displayed as a result of choosing Track is pulled from an API within the application.
+ - Data within the application is asynchronous.
  

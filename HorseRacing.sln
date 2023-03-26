@@ -15,7 +15,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HorseRacing.DTO", "HorseRac
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HorseRacing.Service", "HorseRacing.Service\HorseRacing.Service.csproj", "{E7AA9ABF-AC2B-444B-B503-71D2E91CDC5A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HorseRacing.MVC", "HorseRacing.MVC\HorseRacing.MVC.csproj", "{33A40E83-1263-476B-80CF-462405AE8637}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HorseRacing.MVC", "HorseRacing.MVC\HorseRacing.MVC.csproj", "{33A40E83-1263-476B-80CF-462405AE8637}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CC6608AF-5F23-4A93-9F6D-2759D58DA76E}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,5 +1,7 @@
 ﻿@model IEnumerable<HorseRacing.Domain.RaceDay>
 
+@using HorseRacing.MVC.Common;
+
 @{
     ViewData["Title"] = "Index";
 }
@@ -15,7 +17,7 @@
             {
                 <tr class="row">
                     <td>
-                        <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.Id">View</a>
+                        <a class="btn btn-primary" asp-controller="RawRaces" asp-action="Index" asp-route-id="@item.RaceDayIdString">View</a>
                     </td>
                     <td class="col-3">
                         @item.Track.Name

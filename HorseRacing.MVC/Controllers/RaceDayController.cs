@@ -22,8 +22,8 @@ namespace HorseRacing.MVC.Controllers
         // GET: RaceDay
         public async Task<IActionResult> Index()
         {
-            var horseRacingDbContext = _context.RaceDays.Include(r => r.Track).OrderBy(r=>r.Track.Name);
-            return View(await horseRacingDbContext.ToListAsync());
+            var raceDays = _context.RaceDays.Include(r => r.Track).OrderBy(r=>r.Track.Name);
+            return View(await raceDays.ToListAsync());
         }
 
         // GET: RaceDay/Details/5

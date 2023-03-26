@@ -10,28 +10,24 @@ using HorseRacing.Domain;
 
 namespace HorseRacing.MVC.Controllers
 {
-    public class TrackController : Controller
+    public class RawRaceHorseController : Controller
     {
         private readonly HorseRacingDbContext _context;
 
-        private readonly API.TrackController _trackApiController;
-
-        public TrackController(HorseRacingDbContext context, API.TrackController trackApiController)
+        public RawRaceHorseController(HorseRacingDbContext context)
         {
             _context = context;
-            _trackApiController = trackApiController;
         }
 
-        // GET: Track
-        public async Task<IActionResult> Index()
+        // GET: RawRaceHorse
+        public async Task<IActionResult> Index(string id)
         {
-            var trackList = await _trackApiController.GetTracks();
-            //var trackList = await _context.Tracks.ToListAsync();
-
-            return View(trackList);
+            var raceHorses = _context.RawRaceHorses.Where(r=>r.RawRaceId == id)
+                                                             .Include(r => r.RawRace);
+            return View(await raceHorses.ToListAsync());
         }
 
-        // GET: Track/Details/5
+        // GET: RawRaceHorse/Details/5
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -39,39 +35,42 @@ namespace HorseRacing.MVC.Controllers
                 return NotFound();
             }
 
-            var track = await _context.Tracks
+            var rawRaceHorse = await _context.RawRaceHorses
+                .Include(r => r.RawRace)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (track == null)
+            if (rawRaceHorse == null)
             {
                 return NotFound();
             }
 
-            return View(track);
+            return View(rawRaceHorse);
         }
 
-        // GET: Track/Create
+        // GET: RawRaceHorse/Create
         public IActionResult Create()
         {
+            ViewData["RawRaceId"] = new SelectList(_context.RawRaces, "Id", "Id");
             return View();
         }
 
-        // POST: Track/Create
+        // POST: RawRaceHorse/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,BRISCode")] Track track)
+        public async Task<IActionResult> Create([Bind("Id,PostPosition,HorseName,MorningLineOdds,JockeyName,WeightCarried,TrainerName,RawRaceId")] RawRaceHorse rawRaceHorse)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(track);
+                _context.Add(rawRaceHorse);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(track);
+            ViewData["RawRaceId"] = new SelectList(_context.RawRaces, "Id", "Id", rawRaceHorse.RawRaceId);
+            return View(rawRaceHorse);
         }
 
-        // GET: Track/Edit/5
+        // GET: RawRaceHorse/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -79,22 +78,23 @@ namespace HorseRacing.MVC.Controllers
                 return NotFound();
             }
 
-            var track = await _context.Tracks.FindAsync(id);
-            if (track == null)
+            var rawRaceHorse = await _context.RawRaceHorses.FindAsync(id);
+            if (rawRaceHorse == null)
             {
                 return NotFound();
             }
-            return View(track);
+            ViewData["RawRaceId"] = new SelectList(_context.RawRaces, "Id", "Id", rawRaceHorse.RawRaceId);
+            return View(rawRaceHorse);
         }
 
-        // POST: Track/Edit/5
+        // POST: RawRaceHorse/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,Name,BRISCode")] Track track)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,PostPosition,HorseName,MorningLineOdds,JockeyName,WeightCarried,TrainerName,RawRaceId")] RawRaceHorse rawRaceHorse)
         {
-            if (id != track.Id)
+            if (id != rawRaceHorse.Id)
             {
                 return NotFound();
             }
@@ -103,12 +103,12 @@ namespace HorseRacing.MVC.Controllers
             {
                 try
                 {
-                    _context.Update(track);
+                    _context.Update(rawRaceHorse);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!TrackExists(track.Id))
+                    if (!RawRaceHorseExists(rawRaceHorse.Id))
                     {
                         return NotFound();
                     }
@@ -119,10 +119,11 @@ namespace HorseRacing.MVC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(track);
+            ViewData["RawRaceId"] = new SelectList(_context.RawRaces, "Id", "Id", rawRaceHorse.RawRaceId);
+            return View(rawRaceHorse);
         }
 
-        // GET: Track/Delete/5
+        // GET: RawRaceHorse/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -130,30 +131,31 @@ namespace HorseRacing.MVC.Controllers
                 return NotFound();
             }
 
-            var track = await _context.Tracks
+            var rawRaceHorse = await _context.RawRaceHorses
+                .Include(r => r.RawRace)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (track == null)
+            if (rawRaceHorse == null)
             {
                 return NotFound();
             }
 
-            return View(track);
+            return View(rawRaceHorse);
         }
 
-        // POST: Track/Delete/5
+        // POST: RawRaceHorse/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var track = await _context.Tracks.FindAsync(id);
-            _context.Tracks.Remove(track);
+            var rawRaceHorse = await _context.RawRaceHorses.FindAsync(id);
+            _context.RawRaceHorses.Remove(rawRaceHorse);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool TrackExists(string id)
+        private bool RawRaceHorseExists(string id)
         {
-            return _context.Tracks.Any(e => e.Id == id);
+            return _context.RawRaceHorses.Any(e => e.Id == id);
         }
     }
 }
