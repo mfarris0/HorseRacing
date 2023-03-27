@@ -26,9 +26,9 @@ The main project will be an ASP.NET MVC application. It will be written in C#, b
  ## Instructions to run
  
  1. After cloning or downloading the zip file, open the solution in Visual Studio 2019.
- 2. Ensure the MVC project is the startup project.
- 3. Open Package Manager Console
- 4. Run 'Update-Database' - this will create the database and apply the seed data.
+ 2. Open Package Manager Console and choose HorseRacing.Data as the "Default project".
+ 3. Run 'Update-Database' - this will create the database and apply the seed data.
+ 4. In Solution Explorere ensure the MVC project is the startup project.
  5. Run the application.
 
  
