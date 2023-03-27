@@ -19,4 +19,16 @@ The main project will be an ASP.NET MVC application. It will be written in C#, b
  - The database schema will contain mulitple tables - LINQ will be utilized to retrieve data from one or more tables and related entities.
  - The Maintenance menu contains a Track menu item. The list displayed as a result of choosing Track is pulled from an API within the application.
  - Data within the application is asynchronous.
+ - The application runs Raw SQL commands to seed the database.
+
+ ---
+
+ ## Instructions to run
+ 
+ 1. After cloning or downloading the zip file, open the solution in Visual Studio 2019.
+ 2. Ensure the MVC project is the startup project.
+ 3. Open Package Manager Console
+ 4. Run 'Update-Database' - this will create the database and apply the seed data.
+ 5. Run the application.
+
  
