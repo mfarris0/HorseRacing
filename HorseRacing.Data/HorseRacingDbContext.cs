@@ -5,19 +5,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace HorseRacing.Data
 {
     public class HorseRacingDbContext : DbContext
     {
+        public IConfiguration Configuration { get; }
+
         public HorseRacingDbContext()
         {
 
         }
-        public HorseRacingDbContext(DbContextOptions<HorseRacingDbContext> options) : base(options)
-        {
 
+        public HorseRacingDbContext(IConfiguration configuration)
+        {
+            Configuration = configuration;
         }
+
+        //public HorseRacingDbContext(DbContextOptions<HorseRacingDbContext> options) : base(options)
+        //{
+
+        //}
 
         public DbSet<Track> Tracks { get; set; }
 
@@ -36,7 +45,13 @@ namespace HorseRacing.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=HorseRacing");
+            //AppDomain.CurrentDomain.SetData("DataDirectory", System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Database"));
+            //"Server=.\SQLExpress;AttachDbFilename=|DataDirectory|\HorseRacing.mdf;Database=HorseRacing;Trusted_Connection=Yes;"
+
+            const string HorseRacingConnectionString = "HorseRacingConnectionString";
+
+            //optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=HorseRacing");
+            optionsBuilder.UseSqlServer(Configuration.GetConnectionString(HorseRacingConnectionString));
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
