@@ -24,6 +24,10 @@ namespace HorseRacing.MVC.Controllers
         {
             var raceHorses = _context.RawRaceHorses.Where(r=>r.RawRaceId == id)
                                                              .Include(r => r.RawRace);
+
+            //var rawRace = _context.RawRaces.Where(r => r.Id == id)
+            //                               .Include(r => r.RaceHorseList);
+            
             return View(await raceHorses.ToListAsync());
         }
 

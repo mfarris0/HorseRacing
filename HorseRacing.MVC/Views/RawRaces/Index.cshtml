@@ -37,29 +37,42 @@
     <tbody>
         @foreach (var item in Model.RawRaces)
         {
-            <tr>
+            int purseAmount = -1;
+            double distance = -1;
+
+        <tr>
+            <td>
+                <a class="btn btn-primary" asp-action="Index" asp-controller="RawRaceHorse" asp-route-id="@item.Id">View</a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RaceNumber)
+            </td>
+            @if (int.TryParse(item.Purse, out purseAmount))
+            {
                 <td>
-                    <a class="btn btn-primary" asp-action="Index" asp-controller="RawRaceHorse" asp-route-id="@item.Id">View</a>
+                    @Html.Raw($"{purseAmount:c0}")
                 </td>
+            }
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Classification)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RaceType.Name)
+            </td>
+
+            @if (double.TryParse(item.Distance.BRISCode, out distance))
+            {
+                var manager  = new HorseRacing.Domain.DistanceManager();
                 <td>
-                    @Html.DisplayFor(modelItem => item.RaceNumber)
+                    @Html.Raw($"{manager.DistanceToDisplay(distance)}")
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Purse)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Classification)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RaceType.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Distance.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RaceSurface.Name)
-                </td>
-            </tr>
+
+            }
+            <td>
+                @Html.DisplayFor(modelItem => item.RaceSurface.Name)
+            </td>
+        </tr>
         }
     </tbody>
 </table>

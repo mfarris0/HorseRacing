@@ -20,12 +20,18 @@
             if (yards < 1760)
             {
                 value = yards / yardsPerFurlong;
-                text = $"{value:n2} furlongs";
+                if (yards % yardsPerFurlong == 0)
+                    text = $"{value:n0} furlongs";
+                else
+                    text = $"{value:n2} furlongs";
             }
             else
             {
                 value = yards / yardsPerMile;
-                text = $"{value:n2} miles";
+                if (yards % yardsPerFurlong == 0)
+                    text = $"{value:n0} mile";
+                else
+                    text = $"{value:n2} miles";
             }
             return text;
         }

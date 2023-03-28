@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace HorseRacing.Domain
@@ -34,26 +35,32 @@ namespace HorseRacing.Domain
 
         [Required]
         [StringLength(2)]
+        [DisplayName("Post")]
         public string PostPosition { get; set; }
         
         [Required]
         [StringLength(25)]
+        [DisplayName("Horse")]
         public string HorseName { get; set; }
         
         [Required]
         [StringLength(10)]
+        [DisplayName("Odds")]
         public string MorningLineOdds { get; set; }
         
         [Required]
         [StringLength(25)]
+        [DisplayName("Jockey")]
         public string JockeyName { get; set; }
         
         [Required]
         [StringLength(3)]
+        [DisplayName("Weight Carried")]
         public string WeightCarried { get; set; }
         
         [Required]
         [StringLength(30)]
+        [DisplayName("Trainer")]
         public string TrainerName { get; set; }
 
         
